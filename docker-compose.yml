@@ -1,0 +1,31 @@
+services:
+  backend:
+    image: '#image'
+    container_name: gadgetarium
+    restart: always
+    depends_on:
+      - database
+    ports:
+      - "80:2026"
+    environment:
+      SPRING_PROFILES_ACTIVE: main
+      SERVER_PORT: 2026
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/postgres
+      SPRING_DATASOURCE_USERNAME: ebook19user
+      SPRING_DATASOURCE_PASSWORD: ebook19pass
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+  database:
+    image: postgres:15
+    container_name: database
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: ebook19user
+      POSTGRES_PASSWORD: ebook19pass
+    volumes:
+      - db_data:/var/lib/postgresql/data
+volumes:
+  db_data:
